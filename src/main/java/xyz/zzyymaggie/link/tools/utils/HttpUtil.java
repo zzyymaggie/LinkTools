@@ -3,6 +3,9 @@
  */
 package xyz.zzyymaggie.link.tools.utils;
 
+import java.net.URI;
+
+import org.apache.http.HttpHeaders;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpGet;
 
@@ -45,4 +48,28 @@ public class HttpUtil {
 		  .build();
 		return requestConfig;
 	}
+	
+	public static String get(String url) {
+        return get(URI.create(url));
+    }
+
+    public static String get(URI uri) {
+        return get(getHttpClient(), uri);
+    }
+
+    public static String get(HttpClient http, URI uri) {
+        return get(http, uri, null);
+    }
+
+    public static String get(HttpClient http, URI uri, String referrer) {
+        HttpGet getQueueCountGet = new HttpGet(uri);
+        if (referrer != null) {
+            getQueueCountGet.setHeader(HttpHeaders.REFERER, referrer);
+        }
+        return http.requestString(getQueueCountGet);
+    }
+    
+    public static HttpClient getHttpClient() {
+        return new HttpClient();
+    }
 }

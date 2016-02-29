@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.PropertyConfigurator;
 import org.junit.Test;
 
 import xyz.zzyymaggie.link.tools.enums.LinkResultEnum;
@@ -21,9 +20,7 @@ import xyz.zzyymaggie.link.tools.enums.LinkResultEnum;
  */
 public class LinkToolTest
 {
-    static{
-        PropertyConfigurator.configure("log4j.properties");
-    }
+    private LinkTool linkTool = new LinkTool();
     
     @Test
     public void testUrlAcess() {
@@ -33,7 +30,7 @@ public class LinkToolTest
         links.add("https://www.google.com.hk");
         links.add("http://a.b.c");
         links.add("a.b.c");
-        Map<String, String> deadLinkMap = LinkTool.checkUrlAccess(links);
+        Map<String, String> deadLinkMap = linkTool.checkUrlAccess(links);
         for(String key: deadLinkMap.keySet()){
             System.out.println(key + ":" + deadLinkMap.get(key));
         }
@@ -41,6 +38,15 @@ public class LinkToolTest
         assertTrue(deadLinkMap.values().contains(LinkResultEnum.CONNECT_TIMEOUT.getType()));
         assertTrue(deadLinkMap.values().contains(LinkResultEnum.NOT_STANDARD_URL.getType()));
         assertTrue(deadLinkMap.values().contains(LinkResultEnum.NO_ACCESS.getType()));
+    }
+    
+    @Test
+    public void testHtmlHrefAccess(){
+        List<String> links= linkTool.extractUrlsByUrl("http://www.cnblogs.com/chenying99/p/3735282.html");
+        Map<String, String> deadLinkMap = linkTool.checkUrlAccess(links);
+        for(String key: deadLinkMap.keySet()){
+            System.out.println(key + ":" + deadLinkMap.get(key));
+        }
     }
     
 }

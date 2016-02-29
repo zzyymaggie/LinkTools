@@ -33,6 +33,7 @@ import xyz.zzyymaggie.link.tools.enums.LinkResultEnum;
  * @date 2014年5月19日 下午2:16:41
  */
 public class LinkUtil {
+    private static Logger performanceLogger = Logger.getLogger("performance");
 	private static Logger urlcheckerLogger = Logger.getLogger("urlchecker");
 	
 	private static int threadCount = 80;
@@ -76,12 +77,14 @@ public class LinkUtil {
 	 * @date 2014年5月19日 下午3:23:41
 	 */
 	private static LinkResultEnum checkUrlAccess(String url) {
+	    long childStartTime = System.currentTimeMillis();
 		LinkResultEnum result = LinkResultEnum.NO_ACCESS;
 		try {
 			HttpClient httpClient = new HttpClient();
 			HttpGet getQueueCountGet = new HttpGet(url);
 			getQueueCountGet.setConfig(HttpUtil.defaultRequestConfig);
 			HttpResponse response = httpClient.request(getQueueCountGet);
+			
 			if (response != null && response.getStatusLine().getStatusCode() == 200) {
 			    String responseString = EntityUtils.toString(response.getEntity());
 			    if(!RegexUtil.find(TELECOM_CONST_PATTERN, responseString)){
@@ -102,6 +105,9 @@ public class LinkUtil {
 				}
 			}
 			result = getResultByException(aa);
+		}finally{
+		    long childEndTime = System.currentTimeMillis();
+            performanceLogger.info("[" + url + "] run time：" + (childEndTime - childStartTime) + "ms");
 		}
 		return result;
 	}

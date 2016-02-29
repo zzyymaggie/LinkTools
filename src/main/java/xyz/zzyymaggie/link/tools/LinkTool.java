@@ -11,7 +11,12 @@ import java.util.Map.Entry;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
+
 import xyz.zzyymaggie.link.tools.enums.LinkResultEnum;
+import xyz.zzyymaggie.link.tools.utils.HttpUtil;
 import xyz.zzyymaggie.link.tools.utils.LinkUtil;
 import xyz.zzyymaggie.link.tools.utils.UrlUtil;
 
@@ -20,7 +25,14 @@ import xyz.zzyymaggie.link.tools.utils.UrlUtil;
  */
 public class LinkTool 
 {
-    public static Map<String, String> checkUrlAccess(List<String> links){
+    public LinkTool() {
+        PropertyConfigurator.configure("log4j.properties");
+    }
+    
+    private static Logger performanceLogger = Logger.getLogger("performance");
+    
+    public Map<String, String> checkUrlAccess(List<String> links){
+        long startTime = System.currentTimeMillis();
         Map<String, Future<LinkResultEnum>> accessResultMap = new HashMap<String, Future<LinkResultEnum>>();
         Map<String, String> deadLinkMap = new HashMap<String, String>();
         removeNotStandardUrl(links, deadLinkMap);
@@ -38,10 +50,12 @@ public class LinkTool
                 e.printStackTrace();
             }
         }
+        long endTime = System.currentTimeMillis();
+        performanceLogger.info("checkUrlAccess run time：" + (endTime - startTime) + "ms");
         return deadLinkMap;
     }
     
-    private static void removeNotStandardUrl(List<String> links, Map<String, String> deadLinkMap){
+    private void removeNotStandardUrl(List<String> links, Map<String, String> deadLinkMap){
         Iterator<String> iter = links.iterator();
         while (iter.hasNext()) {
             String link = iter.next();
@@ -50,5 +64,27 @@ public class LinkTool
                 iter.remove();
             }
         }
+    }
+    
+    public List<String> extractUrlsByUrl(String url){
+        String body = HttpUtil.get(url);
+        List<String> links = UrlUtil.extractUrl(body);
+        Iterator<String> iter = links.iterator();
+        while (iter.hasNext()) {
+            String link = iter.next();
+            if(StringUtils.startsWith(link, "http://localhost")){
+                iter.remove();
+            }
+        }
+        return links;
+    }
+    
+    public static void main(String[] args) {
+        LinkTool linkTool = new LinkTool();    
+        List<String> links= linkTool.extractUrlsByUrl("http://www.cnblogs.com/chenying99/p/3735282.html");
+        for(String link : links){
+            System.out.println(link);
+        }
+        
     }
 }
