@@ -1,7 +1,7 @@
 /**
  * Copyright © zzyymaggie. All Rights Reserved.
  */
-package zzyymaggie.xyz.link.tools.utils;
+package xyz.zzyymaggie.link.tools.utils;
 
 import java.net.URI;
 import java.net.URISyntaxException;

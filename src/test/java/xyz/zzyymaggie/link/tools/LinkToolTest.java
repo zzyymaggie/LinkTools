@@ -1,7 +1,7 @@
 /**
  * Copyright © zzyymaggie. All Rights Reserved.
  */
-package zzyymaggie.xyz.simple_tools;
+package xyz.zzyymaggie.link.tools;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -13,8 +13,7 @@ import java.util.Map;
 import org.apache.log4j.PropertyConfigurator;
 import org.junit.Test;
 
-import zzyymaggie.xyz.link.tools.LinkTool;
-import zzyymaggie.xyz.link.tools.enums.LinkResultEnum;
+import xyz.zzyymaggie.link.tools.enums.LinkResultEnum;
 
 
 /**

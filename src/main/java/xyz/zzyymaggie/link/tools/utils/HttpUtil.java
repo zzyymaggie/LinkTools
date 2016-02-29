@@ -1,7 +1,7 @@
 /**
  * Copyright © zzyymaggie. All Rights Reserved.
  */
-package zzyymaggie.xyz.link.tools.utils;
+package xyz.zzyymaggie.link.tools.utils;
 
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpGet;

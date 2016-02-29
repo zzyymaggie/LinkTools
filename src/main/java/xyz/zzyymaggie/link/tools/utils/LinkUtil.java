@@ -1,7 +1,7 @@
 /**
  * Copyright © zzyymaggie. All Rights Reserved.
  */
-package zzyymaggie.xyz.link.tools.utils;
+package xyz.zzyymaggie.link.tools.utils;
 
 import java.io.IOException;
 import java.net.SocketTimeoutException;
@@ -22,7 +22,7 @@ import org.apache.http.conn.ConnectTimeoutException;
 import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 
-import zzyymaggie.xyz.link.tools.enums.LinkResultEnum;
+import xyz.zzyymaggie.link.tools.enums.LinkResultEnum;
 
 
 /**

@@ -1,7 +1,7 @@
 /**
  * Copyright © zzyymaggie. All Rights Reserved.
  */
-package zzyymaggie.xyz.link.tools;
+package xyz.zzyymaggie.link.tools;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -11,9 +11,9 @@ import java.util.Map.Entry;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
-import zzyymaggie.xyz.link.tools.enums.LinkResultEnum;
-import zzyymaggie.xyz.link.tools.utils.LinkUtil;
-import zzyymaggie.xyz.link.tools.utils.UrlUtil;
+import xyz.zzyymaggie.link.tools.enums.LinkResultEnum;
+import xyz.zzyymaggie.link.tools.utils.LinkUtil;
+import xyz.zzyymaggie.link.tools.utils.UrlUtil;
 
 /**
  *  LinkTool is to check dead links by multi thread.

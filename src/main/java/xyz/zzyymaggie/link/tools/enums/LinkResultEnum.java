@@ -1,7 +1,7 @@
 /**
  * Copyright © zzyymaggie. All Rights Reserved.
  */
-package zzyymaggie.xyz.link.tools.enums;
+package xyz.zzyymaggie.link.tools.enums;
 
 import java.util.HashMap;
 import java.util.Map;
