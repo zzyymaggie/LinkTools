@@ -16,6 +16,7 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
 import xyz.zzyymaggie.link.tools.enums.LinkResultEnum;
+import xyz.zzyymaggie.link.tools.utils.FileUtil;
 import xyz.zzyymaggie.link.tools.utils.HttpUtil;
 import xyz.zzyymaggie.link.tools.utils.LinkUtil;
 import xyz.zzyymaggie.link.tools.utils.UrlUtil;
@@ -66,8 +67,7 @@ public class LinkTool
         }
     }
     
-    public List<String> extractUrlsByUrl(String url){
-        String body = HttpUtil.get(url);
+    public List<String> extractUrlsFromContent(String body){
         List<String> links = UrlUtil.extractUrl(body);
         Iterator<String> iter = links.iterator();
         while (iter.hasNext()) {
@@ -76,15 +76,40 @@ public class LinkTool
                 iter.remove();
             }
         }
+        for(int i=0;i<links.size();i++){
+            links.set(i, UrlUtil.cutOffEscape(links.get(i)));
+        }
         return links;
     }
     
-    public static void main(String[] args) {
-        LinkTool linkTool = new LinkTool();    
-        List<String> links= linkTool.extractUrlsByUrl("http://www.cnblogs.com/chenying99/p/3735282.html");
-        for(String link : links){
-            System.out.println(link);
+    public void displayResult( Map<String, String> deadLinkMap){
+        for(Entry<String, String> entry: deadLinkMap.entrySet()){
+            System.out.println("url:" + entry.getKey() + ", result:" + entry.getValue());
         }
-        
+    }
+    
+    public static void testUrlAccessFromHtml(String url){
+        LinkTool linkTool = new LinkTool();   
+        String body = HttpUtil.get(url);
+        List<String> links= linkTool.extractUrlsFromContent(body);
+        Map<String, String> deadLinkMap = linkTool.checkUrlAccess(links);
+        linkTool.displayResult(deadLinkMap);
+    }
+    
+    public static void testUrlAccessFromJson(String filepath){
+        LinkTool linkTool = new LinkTool();   
+        String body = FileUtil.readFile(filepath);
+        List<String> links= linkTool.extractUrlsFromContent(body);
+        Map<String, String> deadLinkMap = linkTool.checkUrlAccess(links);
+        linkTool.displayResult(deadLinkMap);
+    }
+    
+    public static void main(String[] args) {
+        System.out.println("testUrlAccessFromHtml start");
+        testUrlAccessFromHtml("http://www.cnblogs.com/chenying99/p/3735282.html");
+        System.out.println("testUrlAccessFromHtml end");
+        System.out.println("testUrlAccessFromJson start");
+        testUrlAccessFromJson("url.json");
+        System.out.println("testUrlAccessFromJson end");
     }
 }

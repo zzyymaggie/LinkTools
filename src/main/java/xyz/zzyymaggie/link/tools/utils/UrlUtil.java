@@ -59,4 +59,11 @@ public class UrlUtil {
         }
         return links;
     }
+    
+    public static String cutOffEscape(String url) {
+        if(StringUtils.endsWith(url, "\\")){
+            url = StringUtils.substring(url, 0, url.length() - 1);
+        }
+        return url;
+    }
 }
