@@ -11,8 +11,8 @@ public class RandomUtilTest {
     @org.junit.Test
     public void random() {
         BaseReadModel model = new BaseReadModel();
-        model.setAvg(12.5f);
-        model.setDiff(5);
+        model.setAvg("12.5");
+        model.setDiff("5");
         List<Double> doubleList = RandomUtil.random(model);
         System.out.println(doubleList);
         System.out.println(RandomUtil.sum(doubleList));

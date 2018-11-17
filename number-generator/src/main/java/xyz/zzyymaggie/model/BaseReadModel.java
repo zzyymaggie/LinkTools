@@ -2,28 +2,37 @@ package xyz.zzyymaggie.model;
 
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.alibaba.excel.metadata.BaseRowModel;
+import xyz.zzyymaggie.util.FileUtil;
 
 public class BaseReadModel extends BaseRowModel {
     @ExcelProperty(index = 0)
-    protected Float avg;
+    protected String avg;
 
     @ExcelProperty(index = 1)
-    protected Integer diff;
+    protected String diff;
 
-    public Float getAvg() {
+    public String getAvg() {
         return avg;
     }
 
-    public void setAvg(Float avg) {
+    public void setAvg(String avg) {
         this.avg = avg;
     }
 
-    public Integer getDiff() {
+    public String getDiff() {
         return diff;
     }
 
-    public void setDiff(Integer diff) {
+    public void setDiff(String diff) {
         this.diff = diff;
+    }
+
+    public float getAvgVal() {
+        return Float.valueOf(this.avg);
+    }
+
+    public float getDiffVal() {
+        return Float.valueOf(this.diff);
     }
 
     public String toString(){
@@ -31,12 +40,8 @@ public class BaseReadModel extends BaseRowModel {
     }
 
     public int getPointsLen() {
-        int len = 1;
-        String str = String.valueOf(this.avg);
-        int index = str.lastIndexOf(".");
-        if(index > -1) {
-            len = str.substring(index + 1).length();
-        }
-        return len;
+        int len1 = FileUtil.getPointsLength(this.avg);
+        int len2 = FileUtil.getPointsLength(this.diff);
+        return len1 < len2 ? len2 : len1;
     }
 }

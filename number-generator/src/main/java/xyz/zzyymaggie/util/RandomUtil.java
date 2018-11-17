@@ -15,18 +15,18 @@ public class RandomUtil {
     public static List<Double> random(BaseReadModel row){
         int pointsLen = row.getPointsLen();
         List<Double> numbers = new ArrayList<>();
-        double min = row.getAvg() - row.getDiff();
-        double max = row.getAvg() + row.getDiff();
+        double min = row.getAvgVal() - row.getDiffVal();
+        double max = row.getAvgVal() + row.getDiffVal();
         //generate 2 numbers which are between [min, avg]
-        numbers.add(rand(min, row.getAvg(), pointsLen));
-        numbers.add(rand(min, row.getAvg(), pointsLen));
+        numbers.add(rand(min, row.getAvgVal(), pointsLen));
+        numbers.add(rand(min, row.getAvgVal(), pointsLen));
         //generate 2 numbers which are between [avg, max]
-        numbers.add(rand(row.getAvg(), max, pointsLen));
-        numbers.add(rand(row.getAvg(), max, pointsLen));
+        numbers.add(rand(row.getAvgVal(), max, pointsLen));
+        numbers.add(rand(row.getAvgVal(), max, pointsLen));
         // n5 = avg * 5 - (n1 + n2 + n3 + n4)
         // if(n5 is between [min, max], then return
         // else generate again.
-        double last = row.getAvg() * NUMBER_COUNT - sum(numbers);
+        double last = row.getAvgVal() * NUMBER_COUNT - sum(numbers);
         if(last >= min && last <= max) {
             numbers.add(format(last, pointsLen));
         }else{

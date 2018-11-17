@@ -45,4 +45,15 @@ public class DataUtil {
         head.add(headCoulumn5);
         return head;
     }
+    public static List<List<String>> createHead0(){
+        List<List<String>> head = new ArrayList<List<String>>();
+        List<String> headCoulumn1 = new ArrayList<String>();
+        List<String> headCoulumn2 = new ArrayList<String>();
+        headCoulumn1.add("平均值");
+        headCoulumn2.add("浮动范围");
+
+        head.add(headCoulumn1);
+        head.add(headCoulumn2);
+        return head;
+    }
 }
